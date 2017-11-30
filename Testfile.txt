@@ -1,3 +1,0 @@
-my testfile/
-Next test.
-И еще одно изменение.

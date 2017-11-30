@@ -1,0 +1,34 @@
+<?php
+
+$request = new HttpRequest();
+$request->setUrl('https://www.google.com.ua/search');
+$request->setMethod(HTTP_METH_GET);
+
+$request->setQueryData(array(
+  'q' => 'как выбрать зонт',
+  'oq' => 'как',
+  'aqs' => 'chrome.0.69i59j69i61j69i65j69i57j69i61j35i39.1979j0j4',
+  'sourceid' => 'chrome',
+  'ie' => 'UTF-8'
+));
+
+$request->setHeaders(array(
+  'postman-token' => '33fa728f-122f-2d8b-6279-f32f65444f03',
+  'cache-control' => 'no-cache',
+  'cookie' => 'SID=WAW0-AtUdEc2dQlKOKga-mvoVBkLPrxED0P0oJMUE0lwDrOffhiy52jC5_iSdSSfrcj0Ig.; HSID=AKDwIJPomQAWJ8EYy; SSID=AQIQ4ai8GaQi9ae_Z; APISID=jTS91vasQhQz5qeT/A1iu5oK19WYuwrGxt; SAPISID=HH7N7fZfT0IP7bWI/A9exUDDVVetQBRlA9; NID=116=t7VuYroXmytYOTZNilw4HjQfGABTZy4XzX4ntEe_E8Vfg3FuPGoQtibr4jrFiPj2OAYHcdCsI4GArD44fMBs2nVazI-POBcfzdpf4cRoI8KZ3A17Jai8zJ3E21NYpeXUkpV6KY4Rlj-JngdRS-ddOKqkINt5EKEPrfr7WUFjX8DgctmhcvxeQB7iuf9AaQ8eVT5V17hMT8E0pSB5XR0RafrGmmvmQidhHClMY81fPOM; 1P_JAR=2017-10-31-7; DV=A4QvcTY85c1G4NLZ04kQ98EAfdkV99X5A5tTxX4YSQEAAPBHWic7Yga-yAAAALAzETi0H1z4MgAAAA',
+  'accept-language' => 'en,uk;q=0.8,ru;q=0.6',
+  'accept-encoding' => 'gzip, deflate, br',
+  'accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'x-client-data' => 'CJa2yQEIorbJAQjEtskBCPqcygEIqZ3KAQjSncoBCKijygE=',
+  'x-chrome-uma-enabled' => '1',
+  'upgrade-insecure-requests' => '1',
+  'user-agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36'
+));
+
+try {
+  $response = $request->send();
+
+  echo $response->getBody();
+} catch (HttpException $ex) {
+  echo $ex;
+}
