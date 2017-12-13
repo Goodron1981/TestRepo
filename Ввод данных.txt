@@ -1,0 +1,33 @@
+VERSION BUILD=844 RECORDER=CR
+PROMPT "Введите данные" !VAR1
+SET !EXTRACT_TEST_POPUP NO
+URL GOTO=javascript:for(allpanels=document.querySelectorAll("table<SP>span.ng-binding"),nameciti="",i=2;i<allpanels.length;i+=9)if(""!==allpanels[i].innerText){nameciti=allpanels[i].innerText;break}document.getElementsByTagName("input")[1].value=nameciti;
+SET !REPLAYSPEED Fast
+TAG POS=1 TYPE=LABEL ATTR=TXT:Город
+TAG POS=R1 TYPE=INPUT:TEXT ATTR=* EXTRACT=TXT
+SET city {{!EXTRACT}}
+SET !EXTRACT NULL
+SET FirstName EVAL("var boop = '{{!VAR1}}';ALL = boop.split(' ');firstname = ALL[1];")
+SET Name EVAL("var boop = '{{!VAR1}}';ALL = boop.split(' ');name = ALL[2];")
+SET LastName EVAL("var boop = '{{!VAR1}}';ALL = boop.split(' ');name = ALL[3];")
+SET SecondPart EVAL("var boop = '{{!VAR1}}'; secondpart = boop.slice(boop.match(/\d{10}/).index);")
+SET INN EVAL("var secondpart='{{SecondPart}}'; inn = secondpart.match(/\d{10}/);")
+SET NumPass EVAL("var secondpart='{{SecondPart}}';foop = secondpart.slice(0, secondpart.match(/\d{2}\\.\d{2}\\.\d{4}/).index-1).split(' ');numpass = foop[foop.length-1];")
+SET TypeDoc Eval("var numpass='{{NumPass}}'; if(numpass.length == 6){boop = '0'}else if(numpass.length == 9){boop = '1'}else{MacroError(\"Error Length numdoc\")};type = boop;")
+TAG POS=1 TYPE=SELECT FORM=NAME:updateUser ATTR=TXT:Паспорт<SP>громадянина<SP>УкраїниБіометричний<SP>паспорт* CONTENT=%{{TypeDoc}}
+SET CreateDate EVAL("var secondpart='{{SecondPart}}'; datecreate= secondpart.match(/\d{2}\\.\d{2}\\.\d{4}/);")
+SET Crdata EVAL("var crdate ='{{CreateDate}}'; datecreate =  crdate.replace(/\\./g, '/')")
+
+SET OrgCreated EVAL("var secondpart='{{SecondPart}}'; var createDate = '{{CreateDate}}'; orgCreated = secondpart.slice(secondpart.indexOf(createDate)+10)")
+SET SerDoc EVAL("var secondpart='{{SecondPart}}'; var typedoc='{{TypeDoc}}'; var numpass='{{NumPass}}'; if(typedoc === '0') {foop = secondpart.indexOf(numpass); toop = secondpart.lastIndexOf(' ',foop-2);boom =secondpart.slice(toop+1, foop-1)}else{boom =''};serdoc = boom;")
+
+TAG POS=6 TYPE=INPUT:TEXT FORM=NAME:updateUser ATTR=* CONTENT={{FirstName}}
+TAG POS=7 TYPE=INPUT:TEXT FORM=NAME:updateUser ATTR=* CONTENT={{Name}}
+TAG POS=8 TYPE=INPUT:TEXT FORM=NAME:updateUser ATTR=* CONTENT={{LastName}}
+TAG POS=9 TYPE=INPUT:TEXT FORM=NAME:updateUser ATTR=* CONTENT={{city}}
+TAG POS=12 TYPE=INPUT:TEXT FORM=NAME:updateUser ATTR=* CONTENT={{INN}}
+
+TAG POS=13 TYPE=INPUT:TEXT FORM=NAME:updateUser ATTR=* CONTENT={{SerDoc}}
+TAG POS=14 TYPE=INPUT:TEXT FORM=NAME:updateUser ATTR=* CONTENT={{NumPass}}
+TAG POS=15 TYPE=INPUT:TEXT FORM=NAME:updateUser ATTR=* CONTENT={{Crdata}}
+TAG POS=16 TYPE=INPUT:TEXT FORM=NAME:updateUser ATTR=* CONTENT={{OrgCreated}}
